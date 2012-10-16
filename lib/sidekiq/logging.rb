@@ -42,5 +42,10 @@ module Sidekiq
       Sidekiq::Logging.logger
     end
 
+    def self.reopen_log
+      STDOUT.reopen(STDOUT)
+      logger.info "Reopened log"
+    end
+
   end
 end

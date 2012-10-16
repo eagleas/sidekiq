@@ -15,6 +15,11 @@ trap 'USR1' do
   mgr.stop! if mgr
 end
 
+trap 'HUP' do
+  Sidekiq.logger.info "Received HUP, closing log"
+  Sidekiq::Logging.reopen_log
+end
+
 trap 'TTIN' do
   Thread.list.each do |thread|
     Sidekiq.logger.info "Thread TID-#{thread.object_id.to_s(36)} #{thread['label']}"
